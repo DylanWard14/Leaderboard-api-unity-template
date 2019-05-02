@@ -37,12 +37,11 @@ public class Menu : MonoBehaviour
             Debug.Log("login successful");
             loginPanel.SetActive(false);
             profilePanel.SetActive(true);
-            PopulateProfile();
         }  
     }
 
-    public void PopulateProfile()
+    public void Search()
     {
-        
+         
     }
 }

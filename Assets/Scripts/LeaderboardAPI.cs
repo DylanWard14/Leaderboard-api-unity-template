@@ -12,7 +12,7 @@ public class LeaderboardAPI
 
     public string CreateUser(string name, string username, string email, string password)
     {
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:3000/user");
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "POST";
 
@@ -34,7 +34,7 @@ public class LeaderboardAPI
 
     public JObject LoginUser(string email, string password)
     {
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:3000/user/login");
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user/login");
         try
         {
             httpWebRequest.ContentType = "application/json";
@@ -69,7 +69,6 @@ public class LeaderboardAPI
                         JObject json = JObject.Parse(error);
                         Debug.Log(json);
                         return json;
-                        //TODO: use JSON.net to parse this string and look at the error message
                     }
                 }
             }
@@ -80,7 +79,7 @@ public class LeaderboardAPI
 
     public JObject GetUserProfile()
     {
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:3000/user/me");
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user/me");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "GET";
         httpWebRequest.Headers["Authorization"] = ("Bearer " + PlayerPrefs.GetString("AuthToken"));
@@ -93,9 +92,9 @@ public class LeaderboardAPI
         return json;
     }
 
-    JArray GetUserScores()
+    public JArray GetUserScores()
     {
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:3000/scores/me");
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/scores/me");
         httpWebRequest.ContentType = "application/json";
         httpWebRequest.Method = "GET";
         httpWebRequest.Headers["Authorization"] = ("Bearer " + PlayerPrefs.GetString("AuthToken"));
@@ -107,5 +106,39 @@ public class LeaderboardAPI
 
         JArray json = JArray.Parse(jsonResponse);
         return json;
+    }
+
+    public JArray GetGameScores(String gameTitle)
+    {
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/scores/game?title=" + gameTitle);
+        try
+        {
+            httpWebRequest.Method = "GET";
+            httpWebRequest.Headers["Authorization"] = ("Bearer " + PlayerPrefs.GetString("AuthToken"));
+            HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string jsonResponse = reader.ReadToEnd();
+            JArray json = JArray.Parse(jsonResponse);
+            return json;
+        }
+        catch (WebException wex)
+        {
+            if (wex.Response != null)
+            {
+                using (var errorResponse = (HttpWebResponse)wex.Response)
+                {
+                    using (var reader = new StreamReader(errorResponse.GetResponseStream()))
+                    {
+                        string error = reader.ReadToEnd();
+                        Debug.Log(error);
+                        JArray json = new JArray();
+                            json.Add(JToken.Parse(error));
+                        Debug.Log(json);
+                        return json;
+                    }
+                }
+            }
+        }
+        return new JArray { "error", "Unable to find game" };
     }
 }
