@@ -422,6 +422,7 @@ GameObject:
   - component: {fileID: 336332140}
   - component: {fileID: 336332142}
   - component: {fileID: 336332141}
+  - component: {fileID: 336332143}
   m_Layer: 5
   m_Name: PlayerProfilePanel
   m_TagString: Untagged
@@ -487,6 +488,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336332139}
   m_CullTransparentMesh: 0
+--- !u!114 &336332143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336332139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df8e773833af674f9492fb66dc6506b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 1330864581}
+  email: {fileID: 1547360472}
 --- !u!1 &394842245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,7 +1134,7 @@ GameObject:
   - component: {fileID: 1158099504}
   - component: {fileID: 1158099503}
   m_Layer: 5
-  m_Name: Username
+  m_Name: Email
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1199,7 +1214,6 @@ GameObject:
   - component: {fileID: 1188774469}
   - component: {fileID: 1188774468}
   - component: {fileID: 1188774467}
-  - component: {fileID: 1188774471}
   - component: {fileID: 1188774472}
   m_Layer: 5
   m_Name: Canvas
@@ -1289,20 +1303,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1188774471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188774466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6df8e773833af674f9492fb66dc6506b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  username: {fileID: 1330864581}
-  email: {fileID: 1547360472}
 --- !u!114 &1188774472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1315,10 +1315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1042f992d923a684aacdd84faee2585c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  email: {fileID: 1576072465}
-  password: {fileID: 394842247}
-  loginPanel: {fileID: 0}
-  profilePanel: {fileID: 0}
+  emailField: {fileID: 1576072465}
+  passwordField: {fileID: 394842247}
+  loginPanel: {fileID: 1015672238}
+  profilePanel: {fileID: 336332139}
 --- !u!1 &1330864579
 GameObject:
   m_ObjectHideFlags: 0
