@@ -8,8 +8,7 @@ using Newtonsoft.Json.Linq;
 public class PlayerProfile : MonoBehaviour
 {
     private LeaderboardAPI api = new LeaderboardAPI();
-    public Text username, email;
-    public GameObject leaderboard;
+    public Text name, username, email;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,23 +28,6 @@ public class PlayerProfile : MonoBehaviour
         Debug.Log(profile["username"]);
         username.text = profile["username"].ToString();
         email.text = profile["email"].ToString();
-
-        leaderboard.transform.GetChild(1).GetComponent<Text>().text = "test";
-        JArray scores = api.GetUserScores();
-
-        int limit = 5;
-
-        if (scores.Count < 5)
-        {
-            limit = scores.Count; 
-        }
-
-        for (int i = 0; i < limit; i++)
-        {
-            Transform parentComponent = leaderboard.transform.GetChild(i + 1);
-            parentComponent.GetComponent<Text>().text = scores[i]["game"].ToString();
-            parentComponent.GetChild(0).GetComponent<Text>().text = scores[i]["score"].ToString();
-
-        }
+        name.text = profile["name"].ToString();
     }
 }

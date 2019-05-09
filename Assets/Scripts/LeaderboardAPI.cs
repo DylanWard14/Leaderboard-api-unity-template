@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class LeaderboardAPI
 {
-
+    // Create user account
     public string CreateUser(string name, string username, string email, string password)
     {
         HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user");
@@ -32,6 +32,7 @@ public class LeaderboardAPI
         return jsonResponse;
     }
 
+    // Sign user in
     public JObject LoginUser(string email, string password)
     {
         HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user/login");
@@ -77,6 +78,7 @@ public class LeaderboardAPI
 
     }
 
+    // Get user info
     public JObject GetUserProfile()
     {
         HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user/me");
@@ -108,9 +110,19 @@ public class LeaderboardAPI
         return json;
     }
 
-    public JArray GetGameScores(String gameTitle)
+    // Get global leadeboard (ability to sort)
+    public JArray GetScores(string gameID, string sortBy = null, string sortOrder = null, bool friends = false)
     {
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/scores/game?title=" + gameTitle);
+        string query = "?gameID=" + gameID;
+        if (sortBy != null && sortOrder != null)
+        {
+            query += "&sortBy=" + sortBy + ":" + sortOrder;
+        }
+        if (friends)
+        {
+            query += "&friends=true";
+        }
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/scores/game" + query);
         try
         {
             httpWebRequest.Method = "GET";
@@ -141,4 +153,32 @@ public class LeaderboardAPI
         }
         return new JArray { "error", "Unable to find game" };
     }
+
+    // Sign user out
+    public JObject LogOut()
+    {
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("http://192.168.20.120:3000/user/logout");
+        httpWebRequest.ContentType = "application/json";
+        httpWebRequest.Method = "POST";
+        httpWebRequest.Headers["Authorization"] = ("Bearer " + PlayerPrefs.GetString("AuthToken"));
+
+
+        HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+        StreamReader reader = new StreamReader(response.GetResponseStream());
+        string jsonResponse = reader.ReadToEnd();
+        Debug.Log(jsonResponse);
+        JObject json = JObject.Parse(jsonResponse);
+        PlayerPrefs.SetString("AuthToken", "");
+        return json;
+    }
+
+    // Upload User Score
+
+    // Get User Score
+
+    // Get friends leaderboard (ability to sort)
+
+    // Get friends
+
+    // Add friend
 }

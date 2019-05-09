@@ -10,7 +10,7 @@ public class Menu : MonoBehaviour
     public InputField emailField, passwordField;
     private LeaderboardAPI leaderboard = new LeaderboardAPI();
 
-    public GameObject loginPanel, profilePanel;
+    public GameObject loginPanel, profilePanel, leaderboardPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +40,23 @@ public class Menu : MonoBehaviour
         }  
     }
 
-    public void Search()
+    public void ShowLeaderboard()
     {
-         
+        profilePanel.SetActive(false);
+        leaderboardPanel.SetActive(true);
+    }
+
+    public void Home()
+    {
+        profilePanel.SetActive(true);
+        leaderboardPanel.SetActive(false);
+    }
+
+    public void Logout()
+    {
+        leaderboard.LogOut();
+        profilePanel.SetActive(false);
+        leaderboardPanel.SetActive(false);
+        loginPanel.SetActive(true);
     }
 }
